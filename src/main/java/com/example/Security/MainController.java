@@ -11,6 +11,11 @@ public class MainController {
         return "index";
     }
 
+    @GetMapping("/index")
+    public String showIndex(){
+        return "/index";
+    }
+
     @GetMapping("/user")
     public String userPage(){
         return "user";
