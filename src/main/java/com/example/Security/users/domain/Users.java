@@ -5,17 +5,22 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 
 import com.example.Security.enums.UserRoles;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
 import java.util.List;
 import java.io.Serializable;  
 
 @Entity
-public class Users implements Serializable{ 
+public class Users implements UserDetails,Serializable{  
     
     // Instance Variable
 
@@ -28,7 +33,7 @@ public class Users implements Serializable{
 
     private Boolean enabled = true ;
 
-    @ElementCollection(targetClass = UserRoles.class)
+    @ElementCollection(targetClass = UserRoles.class , fetch = FetchType.EAGER)    
     @CollectionTable(name = "authorities" , joinColumns = @JoinColumn(name="email" , referencedColumnName = "email")) 
     @Enumerated(EnumType.STRING) 
     private List<UserRoles> userRoles ;
@@ -75,6 +80,33 @@ public class Users implements Serializable{
     }
     public List<UserRoles> getUserRoles() {
         return userRoles;
+    }
+
+    // UserDetails methods
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return userRoles ;
+    }
+    @Override
+    public String getUsername() { 
+        return email ;
+    }
+    @Override
+    public boolean isAccountNonExpired() {
+        return true ;
+    }
+    @Override
+    public boolean isAccountNonLocked() {
+        return true ;
+    }
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true ;
+    }
+    @Override
+    public boolean isEnabled() {
+        return enabled ;
     }
 
 }

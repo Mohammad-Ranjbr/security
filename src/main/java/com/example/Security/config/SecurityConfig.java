@@ -11,15 +11,26 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.example.Security.users.service.UsersService;
+
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
-    private DataSource dataSource ;
+    // JDBC Authentication
+    // private DataSource dataSource ;
+     private UsersService usersService ;
 
-    @Autowired
-    public SecurityConfig(DataSource dataSource){
-        this.dataSource = dataSource ;
-    }
+    //  @Autowired
+    //  public SecurityConfig(DataSource dataSource , UsersService usersService){
+    //      this.dataSource = dataSource ;
+    //      this.usersService = usersService ;
+    //  }
+     @Autowired
+     public SecurityConfig(UsersService usersService){
+         this.usersService = usersService ;
+     }
+
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -40,14 +51,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     //     .roles("USER");
     // }
 
-    // JDBC Authentication
-    @Override 
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication()
-        .dataSource(this.dataSource)
-        .usersByUsernameQuery("select email,password,enabled from users where email=?")
-        .authoritiesByUsernameQuery("select email,user_roles from authorities where email=?"); 
-    }
+    // first way to JDBC Authentication
+    // @Override 
+    // protected void configure(AuthenticationManagerBuilder auth) throws Exception { 
+    //     auth.jdbcAuthentication()
+    //     .dataSource(this.dataSource)
+    //     .usersByUsernameQuery("select email,password,enabled from users where email=?")
+    //     .authoritiesByUsernameQuery("select email,user_roles from authorities where email=?"); 
+    // }
+
+    // second way to JDBC Authentication
+     @Override 
+     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(usersService);
+     }
 
     @Bean
     public PasswordEncoder passwordEncoder(){
