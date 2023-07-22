@@ -12,9 +12,10 @@ import javax.persistence.JoinColumn;
 import com.example.Security.enums.UserRoles;
 
 import java.util.List;
+import java.io.Serializable;  
 
 @Entity
-public class Users {
+public class Users implements Serializable{ 
     
     // Instance Variable
 
