@@ -15,12 +15,11 @@ import com.example.Security.enums.UserRoles;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.List;
-import java.io.Serializable;  
+import java.util.Collection; 
+import java.util.List;  
 
 @Entity
-public class Users implements UserDetails,Serializable{  
+public class Users implements UserDetails{  
     
     // Instance Variable
 

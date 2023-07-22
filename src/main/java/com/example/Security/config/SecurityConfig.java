@@ -17,7 +17,9 @@ import com.example.Security.users.service.UsersService;
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
     // JDBC Authentication
+    //@Autowired
     // private DataSource dataSource ;
+    @Autowired
      private UsersService usersService ;
 
     //  @Autowired
@@ -25,12 +27,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     //      this.dataSource = dataSource ;
     //      this.usersService = usersService ;
     //  }
-     @Autowired
-     public SecurityConfig(UsersService usersService){
-         this.usersService = usersService ;
-     }
-
-
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

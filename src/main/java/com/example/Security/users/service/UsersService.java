@@ -11,12 +11,8 @@ import com.example.Security.users.repository.UsersRepository;
 @Service
 public class UsersService implements UserDetailsService{
     
-    private final UsersRepository usersRepository ;
-
     @Autowired
-    public UsersService(UsersRepository usersRepository){
-        this.usersRepository = usersRepository ; 
-    }
+    private UsersRepository usersRepository ;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
