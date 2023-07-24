@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
@@ -14,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.example.Security.users.service.UsersService;
 
 @Configuration
+@EnableGlobalMethodSecurity(prePostEnabled = true) 
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
     // JDBC Authentication
@@ -33,7 +35,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/", "/login").permitAll()
-                .anyRequest().authenticated()
+                // Approach 1 to assign Roles to users
+                //.antMatchers("/user/**").hasAnyAuthority("ADMIN","USER") //.hasRole("ROLE_ADMIN") 
+                //.antMatchers("/admin/**").hasAuthority("ADMIN") 
+                .anyRequest().authenticated() 
                 .and()
                 .formLogin().loginPage("/login").usernameParameter("email").defaultSuccessUrl("/index");  
     }

@@ -27,7 +27,7 @@ public class Users implements UserDetails{
     @GeneratedValue
     private Long id ;
 
-    private String email ;
+    private String email ; 
     private String password ;
 
     private Boolean enabled = true ;
