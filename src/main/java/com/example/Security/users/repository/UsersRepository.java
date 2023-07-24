@@ -6,6 +6,6 @@ import com.example.Security.users.domain.Users;
 
 public interface UsersRepository extends JpaRepository<Users,Long>{
     
-    public Users findByEmail(String email);
+    public Users findByEmail(String email); 
 
 }

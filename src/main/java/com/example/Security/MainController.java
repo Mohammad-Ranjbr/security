@@ -1,6 +1,7 @@
 package com.example.Security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +18,7 @@ import com.example.Security.users.service.UsersService;
 public class MainController {
     
     @Autowired
-    private UsersService usersService ;
+    private UsersService usersService ; 
 
     @GetMapping("")
     public String indexPage(){
@@ -53,6 +54,7 @@ public class MainController {
     }
 
     @GetMapping("/user/get/{id}") 
+    @PostAuthorize("returnObject.email == authentication.name") 
     public @ResponseBody Users getUser(@PathVariable Long id){
         return usersService.findUserById(id); 
     }
