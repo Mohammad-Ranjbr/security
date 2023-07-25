@@ -35,46 +35,46 @@ public class MainController {
         return "user";
     }
 
-    @GetMapping("/admin")
-    @PreAuthorize("hasAuthority('ADMIN')") // Approach 2 to assign roles to users 
-    public String adminPage(Model model){
-        model.addAttribute("users",usersService.findAllUsers());
-        return "admin";
-    }
-
     @GetMapping("/login")
     public String loginPage(){ 
         return "login";
     }
 
-    @GetMapping(value = "/admin/register")
-    public String registerPage(Model model) {
-        model.addAttribute("user", new Users());
-        return "userRegister";
-    }
-
-    @GetMapping("/user/get/{id}") 
-    @PostAuthorize("returnObject.email == authentication.name") 
-    public @ResponseBody Users getUser(@PathVariable Long id){
-        return usersService.findUserById(id); 
+    @GetMapping("/admin")
+    @PreAuthorize("hasAuthority('ADMIN')") 
+    public String adminPage(Model model){
+        model.addAttribute("users",usersService.findAllUsers());
+        return "admin";
     }
 
     @GetMapping("/admin/delete/{id}")
-    public String delete(@PathVariable Long id){
+    public String deleteUser(@PathVariable Long id){
         usersService.deleteUserById(usersService.findUserById(id));
-        return "redirect:/admin"; 
-    }
+        return "redirect:/admin";
+    } 
 
-    @GetMapping("/admin/edit/{id}")
-    public String editPage(Model model , @PathVariable Long id){
-        model.addAttribute("user",usersService.findUserById(id)); 
+    @GetMapping("/admin/register")
+    public String registerUserPage(Model model){
+        model.addAttribute("user",new Users()); 
         return "userRegister";
     }
 
     @PostMapping("/admin/register")
-    public String register(@ModelAttribute Users user){
-        usersService.addUser(user); 
+    public String registerUser(@ModelAttribute Users user){
+        usersService.addUSer(user); 
         return "redirect:/admin";
+    }
+
+    @GetMapping("/admin/edit/{id}")
+    public String editUser(@PathVariable Long id , Model model){
+        model.addAttribute("user",usersService.findUserById(id)); 
+        return "userRegister"; 
+    } 
+
+    @GetMapping("/user/get/{id}")
+    @PostAuthorize("returnObject.email == authentication.name")
+    public @ResponseBody Users getUser(@PathVariable Long id){
+        return usersService.findUserById(id);  
     }
 
 }
