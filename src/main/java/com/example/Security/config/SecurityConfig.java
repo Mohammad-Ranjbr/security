@@ -10,7 +10,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder; 
 
 import com.example.Security.users.service.UsersService;
 
@@ -20,15 +20,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
     // JDBC Authentication
     //@Autowired
-    // private DataSource dataSource ;
+    //private DataSource dataSource ;
     @Autowired
-     private UsersService usersService ;
+    private UsersService usersService ;
 
-    //  @Autowired
-    //  public SecurityConfig(DataSource dataSource , UsersService usersService){
-    //      this.dataSource = dataSource ;
-    //      this.usersService = usersService ;
-    //  }
+    // @Autowired 
+    // public SecurityConfig(DataSource dataSource , UsersService usersService){
+    //     this.dataSource = dataSource ;
+    //     this.usersService = usersService ;
+    // }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -36,8 +36,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .authorizeRequests()
                 .antMatchers("/", "/login").permitAll()
                 // Approach 1 to assign Roles to users
-                .antMatchers("/user/**").hasAnyAuthority("ADMIN","USER") //.hasRole("ROLE_ADMIN") 
-                .antMatchers("/admin/**").hasAuthority("ADMIN") 
+                //.antMatchers("/user/**").hasAnyAuthority("ADMIN","USER") //.hasRole("ROLE_ADMIN") 
+                //.antMatchers("/admin/**").hasAuthority("ADMIN") 
                 .anyRequest().authenticated() 
                 .and()
                 .formLogin().loginPage("/login").usernameParameter("email").defaultSuccessUrl("/index");  

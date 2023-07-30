@@ -30,7 +30,13 @@ public class MainController {
         return "/index";
     } 
 
+    // @GetMapping("/user")
+    // public String userPage(){
+    //     return "user";
+    // }
+
     @GetMapping("/user")
+    @PreAuthorize("hasAuthority('OP_ACCESS_USER')") 
     public String userPage(){
         return "user";
     }
@@ -40,8 +46,15 @@ public class MainController {
         return "login";
     }
 
+    // @GetMapping("/admin")
+    // @PreAuthorize("hasAuthority('ADMIN')") 
+    // public String adminPage(Model model){
+    //     model.addAttribute("users",usersService.findAllUsers());
+    //     return "admin";
+    // }
+
     @GetMapping("/admin")
-    @PreAuthorize("hasAuthority('ADMIN')") 
+    @PreAuthorize("hasAuthority('OP_ACCESS_ADMIN')")  
     public String adminPage(Model model){
         model.addAttribute("users",usersService.findAllUsers());
         return "admin";
@@ -53,7 +66,14 @@ public class MainController {
         return "redirect:/admin";
     } 
 
-    @GetMapping("/admin/register")
+    // @GetMapping("/admin/register")
+    // public String registerUserPage(Model model){
+    //     model.addAttribute("user",new Users()); 
+    //     return "userRegister";
+    // }
+
+    @GetMapping("/admin/register") 
+    @PreAuthorize("hasAuthority('OP_NEW_USER')") 
     public String registerUserPage(Model model){
         model.addAttribute("user",new Users()); 
         return "userRegister";

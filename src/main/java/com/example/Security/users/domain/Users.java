@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 
 import com.example.Security.enums.UserRoles;
 
@@ -17,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection; 
 import java.util.List;  
+import java.util.ArrayList;  
 
 @Entity
 public class Users implements UserDetails{  
@@ -29,13 +31,16 @@ public class Users implements UserDetails{
 
     private String email ; 
     private String password ;
-
+ 
     private Boolean enabled = true ;
 
-    @ElementCollection(targetClass = UserRoles.class , fetch = FetchType.EAGER)    
-    @CollectionTable(name = "authorities" , joinColumns = @JoinColumn(name="email" , referencedColumnName = "email")) 
-    @Enumerated(EnumType.STRING) 
-    private List<UserRoles> userRoles ;
+    // @ElementCollection(targetClass = UserRoles.class , fetch = FetchType.EAGER)    
+    // @CollectionTable(name = "authorities" , joinColumns = @JoinColumn(name="email" , referencedColumnName = "email")) 
+    // @Enumerated(EnumType.STRING) 
+    // private List<UserRoles> userRoles ;
+
+    @ManyToMany(fetch = FetchType.EAGER) 
+    private List<Roles> roles;
 
     // Constructors 
 
@@ -59,8 +64,11 @@ public class Users implements UserDetails{
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
-    public void setUserRoles(List<UserRoles> userRoles) {
-        this.userRoles = userRoles;
+    // public void setUserRoles(List<UserRoles> userRoles) {
+    //     this.userRoles = userRoles;
+    // }
+    public void setRoles(List<Roles> roles) {
+        this.roles = roles;
     }
 
     // Getters 
@@ -77,15 +85,22 @@ public class Users implements UserDetails{
     public Boolean getEnabled() {
         return enabled;
     }
-    public List<UserRoles> getUserRoles() {
-        return userRoles;
+    // public List<UserRoles> getUserRoles() {
+    //     return userRoles;
+    // }
+    public List<Roles> getRoles() {
+        return roles;
     }
 
     // UserDetails methods
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return userRoles ;
+        // return userRoles ;
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        for(Roles roles : roles)
+            authorities.addAll(roles.getAuthorities());
+        return authorities;      
     }
     @Override
     public String getUsername() {

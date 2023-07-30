@@ -32,7 +32,7 @@ public class UsersService implements UserDetailsService{
     public Users findUserById(Long id){
         Optional<Users> user = usersRepository.findById(id);
         if(user.isPresent()){ 
-            return user.get();
+            return user.get(); 
         }
         return null ;
     }
