@@ -34,13 +34,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/login").permitAll()
+                .antMatchers("/", "/login","/error").permitAll()
                 // Approach 1 to assign Roles to users
-                .antMatchers("/user/**").hasAnyAuthority("ADMIN","USER") //.hasRole("ROLE_ADMIN") 
-                .antMatchers("/admin/**").hasAuthority("ADMIN") 
+                //.antMatchers("/user/**").hasAnyAuthority("ADMIN","USER") //.hasRole("ROLE_ADMIN") 
+                //.antMatchers("/admin/**").hasAuthority("ADMIN") 
                 .anyRequest().authenticated() 
                 .and()
-                .formLogin().loginPage("/login").usernameParameter("email").defaultSuccessUrl("/index");  
+                .formLogin().loginPage("/login").usernameParameter("email")
+                //.defaultSuccessUrl("/index",true);  
+                .successHandler(new LoginSuccessHandler())
+                .and()
+                .exceptionHandling().accessDeniedPage("/error")
+                .and()
+                .logout().logoutUrl("/logout");   
     }
 
     // In Memory Authentication

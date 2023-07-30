@@ -99,4 +99,9 @@ public class MainController {
         return usersService.findUserById(id);  
     }
 
+    @GetMapping("/error")
+    public String errorPage(){
+        return "error"; 
+    }
+
 }
