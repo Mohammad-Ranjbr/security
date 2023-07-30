@@ -36,8 +36,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .authorizeRequests()
                 .antMatchers("/", "/login").permitAll()
                 // Approach 1 to assign Roles to users
-                //.antMatchers("/user/**").hasAnyAuthority("ADMIN","USER") //.hasRole("ROLE_ADMIN") 
-                //.antMatchers("/admin/**").hasAuthority("ADMIN") 
+                .antMatchers("/user/**").hasAnyAuthority("ADMIN","USER") //.hasRole("ROLE_ADMIN") 
+                .antMatchers("/admin/**").hasAuthority("ADMIN") 
                 .anyRequest().authenticated() 
                 .and()
                 .formLogin().loginPage("/login").usernameParameter("email").defaultSuccessUrl("/index");  

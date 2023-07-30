@@ -55,6 +55,7 @@ public class MainController {
 
     @GetMapping("/admin")
     @PreAuthorize("hasAuthority('OP_ACCESS_ADMIN')")  
+
     public String adminPage(Model model){
         model.addAttribute("users",usersService.findAllUsers());
         return "admin";
@@ -74,6 +75,7 @@ public class MainController {
 
     @GetMapping("/admin/register") 
     @PreAuthorize("hasAuthority('OP_NEW_USER')") 
+
     public String registerUserPage(Model model){
         model.addAttribute("user",new Users()); 
         return "userRegister";
