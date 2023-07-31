@@ -43,10 +43,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .formLogin().loginPage("/login").usernameParameter("email")
                 //.defaultSuccessUrl("/index",true);  
                 .successHandler(new LoginSuccessHandler())
-                .and()
-                .exceptionHandling().accessDeniedPage("/error")
-                .and()
-                .logout().logoutUrl("/logout");   
+                .and().rememberMe().rememberMeCookieName("remember")
+                .tokenValiditySeconds(60).rememberMeParameter("remember")
+                .and().exceptionHandling().accessDeniedPage("/error") 
+                .and().logout().logoutUrl("/logout").deleteCookies("remember");   
     }
 
     // In Memory Authentication

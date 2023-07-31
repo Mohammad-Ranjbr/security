@@ -1,5 +1,9 @@
 package com.example.Security;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -103,5 +107,21 @@ public class MainController {
     public String errorPage(){
         return "error"; 
     }
+
+    @GetMapping("/getCookie")
+    public String getCookie(HttpServletRequest request){
+        for(Cookie cookie : request.getCookies()){
+            System.out.println(cookie.getName() + " : " + cookie.getValue());
+        }
+        return "login"; 
+    }
+
+    @GetMapping("/setCookie")
+    public String setCookie(HttpServletResponse response){
+        Cookie cookie = new Cookie("user", "Mohammad");
+        cookie.setMaxAge(60);
+        response.addCookie(cookie); 
+        return "login";
+    } 
 
 }
