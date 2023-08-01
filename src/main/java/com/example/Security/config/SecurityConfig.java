@@ -40,8 +40,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 //.antMatchers("/admin/**").hasAuthority("ADMIN") 
                 .anyRequest().authenticated() 
                 .and()
-                .formLogin().loginPage("/login").usernameParameter("email")
-                //.defaultSuccessUrl("/index",true);  
+                .formLogin().loginPage("/login").usernameParameter("email")//.defaultSuccessUrl("/index",true); 
+                 //.oauth2Login()
                 .successHandler(new LoginSuccessHandler())
                 .and().rememberMe().rememberMeCookieName("remember")
                 .tokenValiditySeconds(60).rememberMeParameter("remember")
