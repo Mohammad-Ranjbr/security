@@ -1,4 +1,4 @@
-package com.example.Security.jwty;
+package com.example.Security.jwt;
 
 public class JwtAuth {
     
@@ -12,7 +12,7 @@ public class JwtAuth {
         this.password = password ;
     }
 
-    public void setUsername(String username) {
+    public void setUsername(String username) { 
         this.username = username;
     }
     public void setPassword(String password) {

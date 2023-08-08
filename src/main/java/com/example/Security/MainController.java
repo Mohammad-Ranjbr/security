@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.example.Security.jwty.JwtAuth;
-import com.example.Security.jwty.JwtUtils;
+import com.example.Security.jwt.JwtAuth;
+import com.example.Security.jwt.JwtUtils;
 import com.example.Security.users.domain.Users;
 import com.example.Security.users.service.UsersService;
 
@@ -141,7 +141,7 @@ public class MainController {
     } 
 
     @GetMapping("/info")
-    public @ResponseBody Principal getInfo(Principal Principal){
+    public @ResponseBody Principal getInfo(Principal Principal){ 
         return Principal;
     }
 

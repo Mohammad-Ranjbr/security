@@ -1,4 +1,4 @@
-package com.example.Security.jwty;
+package com.example.Security.jwt;
 
 import org.springframework.stereotype.Service;
 import io.jsonwebtoken.Jwts;
@@ -16,7 +16,7 @@ public class JwtUtils {
         .setSubject(username)
         .setExpiration(new Date(System.currentTimeMillis() + (24 * 60 * 60)))
         .signWith(SignatureAlgorithm.HS256, SECRET)
-        .compact();
+        .compact(); 
     }
 
 }
