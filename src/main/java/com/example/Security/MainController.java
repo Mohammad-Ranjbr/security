@@ -95,7 +95,6 @@ public class MainController {
 
     @GetMapping("/admin/register") 
     @PreAuthorize("hasAuthority('OP_NEW_USER')") 
-
     public String registerUserPage(Model model){
         model.addAttribute("user",new Users()); 
         return "userRegister";
@@ -141,7 +140,7 @@ public class MainController {
     } 
 
     @GetMapping("/info")
-    public @ResponseBody Principal getInfo(Principal Principal){ 
+    public @ResponseBody Principal getInfo(Principal Principal){  
         return Principal;
     }
 
@@ -152,12 +151,17 @@ public class MainController {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(jwtAuth.getUsername(), jwtAuth.getPassword()));
         }
         catch(Exception exception){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST); 
         }
 
         response.addHeader("Authorization",jwtUtils.generateToken(jwtAuth.getUsername()));
         return new ResponseEntity<>(HttpStatus.OK);
 
     }
+    
+    @GetMapping("/jwt/hello")
+    public @ResponseBody String jwtHello(){
+        return "Hello Jwt";
+    } 
 
 }

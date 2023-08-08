@@ -3,11 +3,11 @@ package com.example.Security.jwt;
 public class JwtAuth {
     
     private String username ;
-    private String password ;
+    private String password ; 
 
     public JwtAuth(){
     }
-    public JwtAuth(String username , String password){
+    public JwtAuth(String username , String password){ 
         this.username = username ;
         this.password = password ;
     }
