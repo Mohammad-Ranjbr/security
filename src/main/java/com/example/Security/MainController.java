@@ -1,10 +1,12 @@
 package com.example.Security;
 
 import java.security.Principal;
+import java.util.Random;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -163,5 +165,41 @@ public class MainController {
     public @ResponseBody String jwtHello(){
         return "Hello Jwt";
     } 
+
+    @GetMapping("/otp/login")
+    public String otpLogin(){
+        return "otp-username";
+    }
+
+    @PostMapping("/otp/checkUsername")
+    public String cehckUsername(@ModelAttribute("email") String email , HttpSession session){
+        Users users = (Users) usersService.loadUserByUsername(email);
+        Random random = new Random();
+        int password ; 
+
+        if(users == null){
+            users = new Users();
+            users.setEmail(email);
+            password = random.nextInt(9999);
+            System.out.println(String.valueOf(password));
+            users.setPassword(String.valueOf(password));
+            usersService.addUSer(users);
+        }
+        else {
+            password = random.nextInt(9999);
+            System.out.println(String.valueOf(password));
+            users.setPassword(String.valueOf(password));
+            usersService.addUSer(users); 
+        }
+        session.setAttribute("email",email); 
+        return "redirect:/otp/checkPassword"; 
+    }
+
+    @GetMapping("/otp/checkPassword")
+    public String otpCheckPassword(HttpSession session , Model model){
+        String email = session.getAttribute("email").toString();
+        model.addAttribute("email",email);
+        return "otp-password";
+    }
 
 }

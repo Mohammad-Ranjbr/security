@@ -38,23 +38,37 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {   
+                // http.csrf().disable()
+                // .authorizeRequests()
+                // .antMatchers("/", "/login","/error","/info","/jwt/login").permitAll() 
+                // // Approach 1 to assign Roles to users //
+                // //.antMatchers("/user/**").hasAnyAuthority("ADMIN","USER") //.hasRole("ROLE_ADMIN")  //
+                // //.antMatchers("/admin/**").hasAuthority("ADMIN") //
+                // .anyRequest().authenticated() 
+                // .and()
+                // .formLogin().loginPage("/login").usernameParameter("email")
+                // //.loginProcessingUrl("/otp/login") //
+                // //.defaultSuccessUrl("/index",true); //
+                // .successHandler(new LoginSuccessHandler()) 
+                // .and().rememberMe().rememberMeCookieName("remember")
+                // .tokenValiditySeconds(60).rememberMeParameter("remember")
+                // .and().exceptionHandling().accessDeniedPage("/error") 
+                // .and().logout().logoutUrl("/logout").deleteCookies("remember")
+                // .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                // .and().addFilterBefore(jwtFilter,UsernamePasswordAuthenticationFilter.class);  
+
                 http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/login","/error","/info","/jwt/login").permitAll()
-                // Approach 1 to assign Roles to users
-                //.antMatchers("/user/**").hasAnyAuthority("ADMIN","USER") //.hasRole("ROLE_ADMIN")  
-                //.antMatchers("/admin/**").hasAuthority("ADMIN") 
+                .antMatchers("/", "/login","/error","/info","/jwt/login","/otp/**").permitAll()  
                 .anyRequest().authenticated() 
                 .and()
-                .formLogin().loginPage("/login").usernameParameter("email")
-                //.defaultSuccessUrl("/index",true);  
+                .formLogin().loginPage("/otp/login")
+                .usernameParameter("email")
+                .passwordParameter( "otp")
                 .successHandler(new LoginSuccessHandler()) 
-                .and().rememberMe().rememberMeCookieName("remember")
-                .tokenValiditySeconds(60).rememberMeParameter("remember")
                 .and().exceptionHandling().accessDeniedPage("/error") 
-                .and().logout().logoutUrl("/logout").deleteCookies("remember")
-                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().addFilterBefore(jwtFilter,UsernamePasswordAuthenticationFilter.class);  
+                .and().logout().logoutUrl("/logout").deleteCookies("remember"); 
+
     }
 
     // In Memory Authentication
